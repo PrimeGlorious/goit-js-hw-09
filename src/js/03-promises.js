@@ -10,14 +10,8 @@ function onFormSubmit(e) {
   let delay = +e.target.delay.value;
   const step = +e.target.step.value;
   const amount = +e.target.amount.value;
-  let currentAmount = 0;
-
-  setInterval(() => {
-    currentAmount += 1
-    if (currentAmount > amount) {
-      return;
-    };
-    createPromise(currentAmount, delay)
+  for (let i = 1; i <= amount; i++) {
+    createPromise(i, delay)
       .then(({ position, delay }) => {
         Notiflix.Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
       })
@@ -25,10 +19,9 @@ function onFormSubmit(e) {
         Notiflix.Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
       });
     delay += step;
-  }, 200);
-
+  };
   e.currentTarget.reset();
-}
+};
 
 function createPromise(position, delay) {
   return new Promise((resolve, reject) => {
@@ -40,4 +33,4 @@ function createPromise(position, delay) {
       reject({ position, delay });
   }, delay);
   });
-}
+};
