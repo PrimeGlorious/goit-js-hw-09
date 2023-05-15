@@ -33,11 +33,14 @@ flatpickr('#datetime-picker', options);
 function startTimer() {
   setInterval(() => {
     const deltaTime = selectedData - Date.now();
+    if (deltaTime <= 0) {
+      return;
+    };
     const time = convertMs(deltaTime);
     getVisualTimer(time);
     console.log(time);
   }, 1000);
-}
+};
 
 function getVisualTimer({days, hours, minutes, seconds}) {
   daysField.textContent = pad(days);
